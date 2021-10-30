@@ -18,3 +18,18 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+class Doctor(models.Model):
+    User = models.OneToOneField(UserAccount ,on_delete=models.CASCADE)
+    Title = models.CharField(blank=True, null=True ,max_length=50)
+    FirstName = models.CharField(blank=True, null=True, max_length=50)
+    LastName = models.CharField(blank=True, null=True, max_length=50)
+    Mobile = models.IntegerField(blank=True, null=True)
+    Gender = models.CharField(blank=True, null=True, max_length=50)
+    DateOfBirth = models.DateField()
+    NidOrPassport = models.IntegerField(unique=True,blank=True, null=True)
+    RegistrationNumberBMDC = models.IntegerField(unique=True,blank=True, null=True)
+
+    def __str__(self):
+        return self.FirstName + " " + self.LastName
