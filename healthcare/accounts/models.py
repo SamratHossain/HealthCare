@@ -33,3 +33,15 @@ class Doctor(models.Model):
 
     def __str__(self):
         return self.FirstName + " " + self.LastName
+
+class Patient(models.Model):
+    User = models.OneToOneField(UserAccount ,on_delete=models.CASCADE)
+    FirstName = models.CharField(blank=True, null=True, max_length=50)
+    LastName = models.CharField(blank=True, null=True, max_length=50)
+    Mobile = models.IntegerField(blank=True, null=True)
+    Gender = models.CharField(blank=True, null=True, max_length=50)
+    DateOfBirth = models.DateField()
+    District = models.CharField(blank=True, null=True, max_length=50)
+
+    def __str__(self):
+        return self.FirstName + " " + self.LastName
