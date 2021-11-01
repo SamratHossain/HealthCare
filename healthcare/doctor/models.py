@@ -33,3 +33,28 @@ class Experience(models.Model):
 
     def __str__(self):
         return self.Designation
+
+class DoctorProfile(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    AvailableTime = models.DateField()
+    AvailableDate = models.DateField()
+    ConsultationFee = models.IntegerField()
+    FollowUpFee = models.IntegerField()
+    WithinDuration = models.DateField()
+    PerPatientConsultancyDuration = models.CharField(blank=True, null=True, max_length=50)
+    NIDPhoto = models.ImageField(upload_to="Doctor/NidImage")   
+    ProfilePhoto = models.ImageField(upload_to="Doctor/ProfileImage")   
+    About = models.TextField()
+
+    def __str__(self):
+        return self.About
+
+class Review(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    Name = models.CharField(null=True, blank=True, max_length=500)
+    Rating = models.IntegerField()
+    NumberOfReview = models.IntegerField(blank=True, null=True)
+    Date = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return self.name
