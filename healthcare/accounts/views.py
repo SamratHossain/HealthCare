@@ -31,28 +31,39 @@ class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 
-
 @api_view(['POST'])
 def DoctorSignUp(request):
     data = request.data
-    user = User.objects.create(
+    email = data['email']
+    NidOrPassport = data['NidOrPassport']
+    RegistrationNumberBMDC = data['RegistrationNumberBMDC']
+    if User.objects.filter(email=email):
+        return Response({'error':'user with this email already exist'})
+
+    elif Doctor.objects.filter(NidOrPassport=NidOrPassport):
+        return Response({'error':'user with this nid or passport number already exist'})
+
+    elif Doctor.objects.filter(RegistrationNumberBMDC=RegistrationNumberBMDC):
+        return Response({'error':'user with this RegistrationNumber(BMDC) number already exist'})
+    else:
+        user = User.objects.create(
         email = data['email'],
         password = make_password(data['password']),
         IsDoctor = True
-    )
-    doctor = Doctor.objects.create(
-        User = user,
-        Title = data['Title'],
-        FirstName = data['FirstName'],
-        LastName = data['LastName'],
-        Mobile = data['Mobile'],
-        Gender = data['Gender'],
-        DateOfBirth = data['DateOfBirth'],
-        NidOrPassport = data['NidOrPassport'],
-        RegistrationNumberBMDC = data['RegistrationNumberBMDC']
-    )
-    doctor.save()
-    return Response({'success':'Doctor Register Successfully'})
+        )
+        doctor = Doctor.objects.create(
+            User = user,
+            Title = data['Title'],
+            FirstName = data['FirstName'],
+            LastName = data['LastName'],
+            Mobile = data['Mobile'],
+            Gender = data['Gender'],
+            DateOfBirth = data['DateOfBirth'],
+            NidOrPassport = data['NidOrPassport'],
+            RegistrationNumberBMDC = data['RegistrationNumberBMDC']
+            )
+        return Response({'success':'Doctor Register Successfully'})
+   
 
 
 @api_view(['POST'])
