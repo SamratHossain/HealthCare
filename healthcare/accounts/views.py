@@ -69,21 +69,25 @@ def DoctorSignUp(request):
 @api_view(['POST'])
 def PatientSignUp(request):
     data = request.data
-    user = User.objects.create(
+    email = data['email']
+    if User.objects.filter(email=email):
+        return Response({'error':'user with this email already exist'})
+    else:
+        user = User.objects.create(
         email = data['email'],
         password = make_password(data['password']),
         IsPatient = True
-    )
-    patient = Patient.objects.create(
-        User = user,    
-        FirstName = data['FirstName'],
-        LastName = data['LastName'],
-        Mobile = data['Mobile'],
-        Gender = data['Gender'],
-        DateOfBirth = data['DateOfBirth'],
-        District = data['District']
-    )
-    patient.save()
-    return Response({'success':'Patient Register Successfully'})
+        )
+        patient = Patient.objects.create(
+            User = user,    
+            FirstName = data['FirstName'],
+            LastName = data['LastName'],
+            Mobile = data['Mobile'],
+            Gender = data['Gender'],
+            DateOfBirth = data['DateOfBirth'],
+            District = data['District']
+        )
+        return Response({'success':'Patient Register Successfully'})
+
 
 
