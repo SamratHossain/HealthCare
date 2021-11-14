@@ -24,6 +24,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['email'] = self.user.email
         data['isPatient'] = self.user.IsPatient
         data['IsDoctor'] = self.user.IsDoctor
+        data['is_superuser'] = self.user.is_superuser
         return data
 
 
