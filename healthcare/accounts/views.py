@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from accounts.models import Doctor, Patient
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework import status
 
 
 User = get_user_model()
@@ -31,27 +33,35 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
+# & Doctor.objects.exclude(Q(NidOrPassport=NidOrPassport) & Q(RegistrationNumberBMDC=Registration))
 
 @api_view(['POST'])
 def DoctorSignUp(request):
     data = request.data
-    email = data['email']
+    Email = data['Email']
     NidOrPassport = data['NidOrPassport']
-    RegistrationNumberBMDC = data['RegistrationNumberBMDC']
-    if User.objects.filter(email=email):
-        return Response({'error':'user with this email already exist'})
+    Registration = data['Registration']
+
+    
+    if User.objects.filter(email=Email):
+        message = {'EmailError':'user with this email already exist'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
     elif Doctor.objects.filter(NidOrPassport=NidOrPassport):
-        return Response({'error':'user with this nid or passport number already exist'})
+        message = {'NidOrPassportError':'user with this nid/passport already exist'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
-    elif Doctor.objects.filter(RegistrationNumberBMDC=RegistrationNumberBMDC):
-        return Response({'error':'user with this RegistrationNumber(BMDC) number already exist'})
+    elif Doctor.objects.filter(RegistrationNumberBMDC=Registration):
+        message = {'RegistrationError':'user with this registration already exist'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
     else:
         user = User.objects.create(
-        email = data['email'],
-        password = make_password(data['password']),
-        IsDoctor = True
-        )
+            email = data['Email'],
+            password = make_password(data['Password']),
+            IsDoctor = True
+            )
+            
         doctor = Doctor.objects.create(
             User = user,
             Title = data['Title'],
@@ -61,22 +71,22 @@ def DoctorSignUp(request):
             Gender = data['Gender'],
             DateOfBirth = data['DateOfBirth'],
             NidOrPassport = data['NidOrPassport'],
-            RegistrationNumberBMDC = data['RegistrationNumberBMDC']
+            RegistrationNumberBMDC = data['Registration']
             )
         return Response({'success':'Doctor Register Successfully'})
-   
+    
 
 
 @api_view(['POST'])
 def PatientSignUp(request):
     data = request.data
-    email = data['email']
-    if User.objects.filter(email=email):
+    Email = data['Email']
+    if User.objects.filter(email=Email):
         return Response({'error':'user with this email already exist'})
     else:
         user = User.objects.create(
-        email = data['email'],
-        password = make_password(data['password']),
+        email = data['Email'],
+        password = make_password(data['Password']),
         IsPatient = True
         )
         patient = Patient.objects.create(
@@ -86,7 +96,6 @@ def PatientSignUp(request):
             Mobile = data['Mobile'],
             Gender = data['Gender'],
             DateOfBirth = data['DateOfBirth'],
-            District = data['District']
         )
         return Response({'success':'Patient Register Successfully'})
 

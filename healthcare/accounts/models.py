@@ -41,7 +41,7 @@ class Patient(models.Model):
     Mobile = models.IntegerField(blank=True, null=True)
     Gender = models.CharField(blank=True, null=True, max_length=50)
     DateOfBirth = models.DateField()
-    District = models.CharField(blank=True, null=True, max_length=50)
+    
 
     def __str__(self):
         return self.FirstName + " " + self.LastName
