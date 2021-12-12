@@ -21,15 +21,18 @@ class Qualification(models.Model):
     def __str__(self):
         return self.DegreeName
 
+
 class Experience(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     HospitalName = models.CharField(blank=True, null=True, max_length=50)
     Designation = models.CharField(blank=True, null=True, max_length=50)
     Department = models.CharField(blank=True, null=True, max_length=50)
     EmploymentPeriod = models.CharField(blank=True, null=True, max_length=50)
     CurrentlyWorking = models.BooleanField(default=False)
-    From = models.DateField()
-    To = models.DateField()
+    From = models.CharField(blank=True, null=True,max_length=50)
+    To = models.CharField(blank=True, null=True,max_length=50)
+    
+    
 
     def __str__(self):
         return self.Designation

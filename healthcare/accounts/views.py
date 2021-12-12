@@ -24,9 +24,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Add extra responses here
         data['email'] = self.user.email
-        data['isPatient'] = self.user.IsPatient
+        data['IsPatient'] = self.user.IsPatient
         data['IsDoctor'] = self.user.IsDoctor
         data['is_superuser'] = self.user.is_superuser
+        data['IsApproved'] = self.user.IsApproved
         return data
 
 
