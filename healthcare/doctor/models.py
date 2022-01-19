@@ -11,10 +11,10 @@ class Specialist(models.Model):
         return self.name
 
 class Qualification(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
-    specialist = ArrayField(models.CharField(max_length=50), blank=True, null=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    Specialist = models.CharField(max_length=50, blank=True, null=True)
     DegreeName = models.CharField(blank=True,null=True,max_length=50)
-    Institute = models.CharField(blank=True,null=True, max_length=50)
+    InstituteName = models.CharField(blank=True,null=True, max_length=50)
     Country = models.CharField(blank=True,null=True, max_length=50)
     PassingYear = models.DateField()
 
@@ -32,22 +32,20 @@ class Experience(models.Model):
     From = models.CharField(blank=True, null=True,max_length=50)
     To = models.CharField(blank=True, null=True,max_length=50)
     
-    
-
     def __str__(self):
         return self.Designation
 
-class DoctorProfile(models.Model):
+class DoctorInfo(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     AvailableTime = models.CharField(max_length=100, blank=True, null=True)
     AvailableDay = models.CharField(max_length=100, blank=True, null=True)
     ConsultationFee = models.IntegerField()
     FollowUpFee = models.IntegerField()
-    WithinDuration = models.DateField()
-    PerPatientConsultancyDuration = models.CharField(blank=True, null=True, max_length=50)
+    WithinDuration = models.CharField(max_length=100, blank=True, null=True)
+    ConsultancyDuration = models.CharField(blank=True, null=True, max_length=50)
     NIDPhoto = models.ImageField(upload_to="Doctor/NidImage")   
     ProfilePhoto = models.ImageField(upload_to="Doctor/ProfileImage")   
-    About = models.TextField()
+    About = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.About

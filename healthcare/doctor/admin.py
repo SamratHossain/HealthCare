@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import (Qualification, 
                         Specialist, 
                         Experience,
-                        DoctorProfile,
+                        DoctorInfo,
                         Review)
 
 # Register your models here.
@@ -10,5 +10,5 @@ from .models import (Qualification,
 admin.site.register(Qualification)
 admin.site.register(Specialist)
 admin.site.register(Experience)
-admin.site.register(DoctorProfile)
+admin.site.register(DoctorInfo)
 admin.site.register(Review)

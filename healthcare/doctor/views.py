@@ -18,9 +18,6 @@ def AddExperience(request):
     From = data["From"]
     To = data["To"]
 
-    print("From",data["From"])
-    print("To",data["To"])
-
     EmploymentPeriod = None
 
     if data["CurrentlyWorking"]:
