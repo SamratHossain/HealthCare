@@ -39,8 +39,8 @@ class Experience(models.Model):
 
 class DoctorProfile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
-    AvailableTime = models.DateField()
-    AvailableDate = models.DateField()
+    AvailableTime = models.CharField(max_length=100, blank=True, null=True)
+    AvailableDay = models.CharField(max_length=100, blank=True, null=True)
     ConsultationFee = models.IntegerField()
     FollowUpFee = models.IntegerField()
     WithinDuration = models.DateField()

@@ -1,11 +1,11 @@
 import datetime
-from django.shortcuts import render
-from datetime import timedelta
 from datetime import date
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import Experience
+from .serializers import ExperienceSerializer
 # Create your views here.
 
 @api_view(['POST'])
@@ -54,10 +54,10 @@ def AddExperience(request):
 
         months = (number_of_days - years *365) // 30
 
-
-        days = (number_of_days - years * 365 - months*30)
-
-        EmploymentPeriod = str(years) + " Years " +  str(months) + " Month " + str(days) + " Days "
+        if years == 0:
+            EmploymentPeriod = str(months) + " Month "
+        else:     
+            EmploymentPeriod = str(years) + " Years " +  str(months) + " Month "
   
     experience = Experience.objects.create(
                  user = current_user,
@@ -74,3 +74,10 @@ def AddExperience(request):
 
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def ViewExperience(request):
+    exprience = Experience.objects.all()
+    serializer = ExperienceSerializer(exprience, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+    

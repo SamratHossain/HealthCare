@@ -37,7 +37,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
 # & Doctor.objects.exclude(Q(NidOrPassport=NidOrPassport) & Q(RegistrationNumberBMDC=Registration))
 
 @api_view(['POST'])
-def DoctorSignUp(request):
+def CheckExistingDoctor(request):
     data = request.data
     Email = data['Email']
     NidOrPassport = data['NidOrPassport']
@@ -57,24 +57,48 @@ def DoctorSignUp(request):
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
     else:
-        user = User.objects.create(
-            email = data['Email'],
-            password = make_password(data['Password']),
-            IsDoctor = True
-            )
+        
+        return Response({'success':'Existing Account Check Successfully'})
+    
+# @api_view(['POST'])
+# def DoctorSignUp(request):
+#     data = request.data
+#     Email = data['Email']
+#     NidOrPassport = data['NidOrPassport']
+#     Registration = data['Registration']
+
+    
+#     if User.objects.filter(email=Email):
+#         message = {'EmailError':'user with this email already exist'}
+#         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+#     elif Doctor.objects.filter(NidOrPassport=NidOrPassport):
+#         message = {'NidOrPassportError':'user with this nid/passport already exist'}
+#         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+#     elif Doctor.objects.filter(RegistrationNumberBMDC=Registration):
+#         message = {'RegistrationError':'user with this registration already exist'}
+#         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+#     else:
+#         user = User.objects.create(
+#             email = data['Email'],
+#             password = make_password(data['Password']),
+#             IsDoctor = True
+#             )
             
-        doctor = Doctor.objects.create(
-            User = user,
-            Title = data['Title'],
-            FirstName = data['FirstName'],
-            LastName = data['LastName'],
-            Mobile = data['Mobile'],
-            Gender = data['Gender'],
-            DateOfBirth = data['DateOfBirth'],
-            NidOrPassport = data['NidOrPassport'],
-            RegistrationNumberBMDC = data['Registration']
-            )
-        return Response({'success':'Doctor Register Successfully'})
+#         doctor = Doctor.objects.create(
+#             User = user,
+#             Title = data['Title'],
+#             FirstName = data['FirstName'],
+#             LastName = data['LastName'],
+#             Mobile = data['Mobile'],
+#             Gender = data['Gender'],
+#             DateOfBirth = data['DateOfBirth'],
+#             NidOrPassport = data['NidOrPassport'],
+#             RegistrationNumberBMDC = data['Registration']
+#             )
+#         return Response({'success':'Doctor Register Successfully'})
     
 
 
