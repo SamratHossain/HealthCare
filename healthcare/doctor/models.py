@@ -48,7 +48,7 @@ class DoctorInfo(models.Model):
     About = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.About
+        return self.AvailableDay
 
 class Review(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)

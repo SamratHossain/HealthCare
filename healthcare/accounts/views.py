@@ -181,7 +181,7 @@ def DoctorSignUp(request):
           ConsultancyDuration = data['ConsultancyDuration'],
           NIDPhoto = data['NidPhoto'],
           ProfilePhoto = data['ProfilePhoto'],
-          About = data['About'],
+        #   About = data['About'],
 
     )
 
