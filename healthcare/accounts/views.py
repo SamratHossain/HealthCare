@@ -25,7 +25,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['access'] = str(refresh.access_token)
 
         # Add extra responses here
-        data['email'] = self.user.email
+        data['id'] = self.user.id
         data['IsPatient'] = self.user.IsPatient
         data['IsDoctor'] = self.user.IsDoctor
         data['is_superuser'] = self.user.is_superuser
@@ -192,24 +192,27 @@ def DoctorSignUp(request):
 @api_view(['POST'])
 def PatientSignUp(request):
     data = request.data
-    Email = data['Email']
-    if User.objects.filter(email=Email):
-        return Response({'error':'user with this email already exist'})
-    else:
-        user = User.objects.create(
-        email = data['Email'],
-        password = make_password(data['Password']),
-        IsPatient = True
-        )
-        patient = Patient.objects.create(
-            User = user,    
-            FirstName = data['FirstName'],
-            LastName = data['LastName'],
-            Mobile = data['Mobile'],
-            Gender = data['Gender'],
-            DateOfBirth = data['DateOfBirth'],
-        )
-        return Response({'success':'Patient Register Successfully'})
+    print(data)
+    FirstName = data['FirstName']
+    print('fName',FirstName)
+    # Email = data['Email']
+    # if User.objects.filter(email=Email):
+    #     return Response({'error':'user with this email already exist'})
+    # else:
+    #     user = User.objects.create(
+    #     email = data['Email'],
+    #     password = make_password(data['Password']),
+    #     IsPatient = True
+    #     )
+    # patient = Patient.objects.create(
+            # User = user,    
+        # FirstName = data['FirstName'],
+        # LastName = data['LastName'],
+        # Mobile = data['Mobile'],
+        # Gender = data['Gender'],
+        # DateOfBirth = data['DateOfBirth'],
+        # )
+    return Response({'success':'Patient Register Successfully'})
 
 
 
