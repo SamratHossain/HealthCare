@@ -53,38 +53,52 @@ def UpdateDoctorlInfo(request):
     Start = data['StartTime']
     End = data['EndTime']
 
-    StartTime = Start.split(":")
-    StartHour = int(StartTime[0])
-    StartMinute = StartTime[1]
+    if Start and End is not '':
 
-    EndTime = End.split(":")
-    EndHour = int(EndTime[0])
-    EndMinute = EndTime[1]
+        StartTime = Start.split(":")
+        StartHour = int(StartTime[0])
+        StartMinute = StartTime[1]
 
-    if StartHour > 12:
-        StartHour = StartHour - 12
-        Start = f'{StartHour}:{StartMinute} PM'
+        EndTime = End.split(":")
+        EndHour = int(EndTime[0])
+        EndMinute = EndTime[1]
+
+        if StartHour > 12:
+            StartHour = StartHour - 12
+            Start = f'{StartHour}:{StartMinute} PM'
+        else:
+            Start = f'{StartHour}:{StartMinute} AM'
+
+
+        if EndHour > 12:
+            EndHour = EndHour - 12
+            End = f'{EndHour}:{EndMinute} PM'
+        else:
+            End = f'{EndHour}:{EndMinute} AM'
+
+        AvailableTime = f'{Start} - {End}'
+
+        pk = data['Id']
+        doctor = DoctorInfo.objects.get(id=pk)
+        doctor.AvailableTime = AvailableTime
+        doctor.AvailableDay = data['AvailableDay']
+        doctor.ConsultationFee = data['ConsultationFee']
+        doctor.FollowUpFee = data['FollowupFee']
+        doctor.WithinDuration = data['FollowUpDuration']
+        doctor.ConsultancyDuration = data['ConsultDuration'] 
+        doctor.save()
+        
     else:
-        Start = f'{StartHour}:{StartMinute} AM'
+        pk = data['Id']
+        doctor = DoctorInfo.objects.get(id=pk)
+        doctor.AvailableDay = data['AvailableDay']
+        doctor.ConsultationFee = data['ConsultationFee']
+        doctor.FollowUpFee = data['FollowupFee']
+        doctor.WithinDuration = data['FollowUpDuration']
+        doctor.ConsultancyDuration = data['ConsultDuration'] 
+        doctor.save()
 
-
-    if EndHour > 12:
-        EndHour = EndHour - 12
-        End = f'{EndHour}:{EndMinute} PM'
-    else:
-        End = f'{EndHour}:{EndMinute} AM'
-
-    AvailableTime = f'{Start} - {End}'
-
-    pk = data['Id']
-    doctor = DoctorInfo.objects.get(id=pk)
-    doctor.AvailableTime = AvailableTime
-    doctor.AvailableDay = data['AvailableDay']
-    doctor.ConsultationFee = data['ConsultationFee']
-    doctor.FollowUpFee = data['FollowupFee']
-    doctor.WithinDuration = data['FollowUpDuration']
-    doctor.ConsultancyDuration = data['ConsultDuration'] 
-    doctor.save()
+    
     message = {'success':'Doctor Information Successfully Updated'}
     return Response(message, status=status.HTTP_200_OK)
 
