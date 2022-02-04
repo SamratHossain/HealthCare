@@ -103,6 +103,21 @@ def UpdateDoctorlInfo(request):
     return Response(message, status=status.HTTP_200_OK)
 
 
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def ChangeDoctorProfilePic(request):
+    data = request.data
+    print(data)
+    pk = data['Id']
+    photo = DoctorInfo.objects.get(id=pk)
+    photo.ProfilePhoto = request.FILES.get('ProfilePhoto')
+    photo.save()
+
+    message = {'success':'Change Doctor Profile Photo Successfully'}
+    return Response(message, status=status.HTTP_200_OK)
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def AddExperience(request):
