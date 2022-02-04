@@ -170,7 +170,7 @@ def AddExperience(request):
 @permission_classes([IsAuthenticated])
 def ViewExperience(request):
     current_user = request.user
-    experience = Experience.objects.filter(user=current_user)
+    experience = Experience.objects.filter(user=current_user).order_by('-id')
     experienceSerializer = ExperienceSerializer(experience, many=True)
     return Response(experienceSerializer.data)
 
@@ -221,17 +221,32 @@ def UpdateExperience(request):
             EmploymentPeriod = str(years) + " Years " +  str(months) + " Month "
 
     print(EmploymentPeriod)
-    # pk = data['Id']
-    # experience = Experience.objects.get(id=pk)
-    # experience.HospitalName = data['HospitalName']
-    # experience.Designation = data['Designation']
-    # experience.Department = data['Department']
-    # experience.CurrentlyWorking = CurrentlyWorking
-    # experience.EmploymentPeriod = EmploymentPeriod
-    # experience.From = data['From']
-    # experience.To = data['To']
-    # experience.save()
+    pk = data['Id']
+    experience = Experience.objects.get(id=pk)
+    experience.HospitalName = data['HospitalName']
+    experience.Designation = data['Designation']
+    experience.Department = data['Department']
+    experience.CurrentlyWorking = CurrentlyWorking
+    experience.EmploymentPeriod = EmploymentPeriod
+    experience.From = data['From']
+    experience.To = data['To']
+    experience.save()
     message = {'success':'Experience Successfully Updated'}
+    return Response(message, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def DeleteExperience(request):
+    data = request.data
+    pk = data['Id']
+
+    print(pk)
+    
+    experience = Experience.objects.get(id=pk)
+    experience.delete()
+
+    message = {'success':'Experience Successfully Deleted'}
     return Response(message, status=status.HTTP_200_OK)
 
 
