@@ -13,5 +13,6 @@ urlpatterns = [
     path('change-doctor-profile-photo/', views.ChangeDoctorProfilePic, name="ChangeDoctorProfilePic"),
     path('view-personal-info/', views.ViewPersonalInfo, name="ViewPersonalInfo"),
     path('update-personal-info/', views.UpdatePersonalInfo, name="UpdatePersonalInfo"),
-    path('update-doctor-info/', views.UpdateDoctorlInfo, name="UpdateDoctorlInfo")
+    path('update-doctor-info/', views.UpdateDoctorlInfo, name="UpdateDoctorlInfo"),
+    path('add-category/', views.AddCategory, name="AddCategory"),
 ]

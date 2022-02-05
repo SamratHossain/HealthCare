@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .models import Experience, Qualification, DoctorInfo
+from .models import Experience, Qualification, DoctorInfo, Category
 from accounts.models import Doctor
 from .serializers import ExperienceSerializer, QualificationSerializer, DoctorInfoSerializer, DoctorSerializer
 # Create your views here.
@@ -294,8 +294,17 @@ def UpdateQualification(request):
 
 
 
+@api_view(['POST'])
+# @permission_classes([IsAuthenticated])
+def AddCategory(request):
+    data = request.data
 
-
+    category = Category.objects.create(
+         name = data['Name'],
+         about = data['About'],
+     )
+    message = {'success':'Category Added Successfully'}
+    return Response(message, status=status.HTTP_200_OK)
 
 
     

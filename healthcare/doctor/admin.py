@@ -3,7 +3,8 @@ from .models import (Qualification,
                         Specialist, 
                         Experience,
                         DoctorInfo,
-                        Review)
+                        Review,
+                        Category)
 
 # Register your models here.
 
@@ -12,3 +13,4 @@ admin.site.register(Specialist)
 admin.site.register(Experience)
 admin.site.register(DoctorInfo)
 admin.site.register(Review)
+admin.site.register(Category)

@@ -195,23 +195,23 @@ def PatientSignUp(request):
     print(data)
     FirstName = data['FirstName']
     print('fName',FirstName)
-    # Email = data['Email']
-    # if User.objects.filter(email=Email):
-    #     return Response({'error':'user with this email already exist'})
-    # else:
-    #     user = User.objects.create(
-    #     email = data['Email'],
-    #     password = make_password(data['Password']),
-    #     IsPatient = True
-    #     )
-    # patient = Patient.objects.create(
-            # User = user,    
-        # FirstName = data['FirstName'],
-        # LastName = data['LastName'],
-        # Mobile = data['Mobile'],
-        # Gender = data['Gender'],
-        # DateOfBirth = data['DateOfBirth'],
-        # )
+    Email = data['Email']
+    if User.objects.filter(email=Email):
+        return Response({'error':'user with this email already exist'})
+    else:
+        user = User.objects.create(
+        email = data['Email'],
+        password = make_password(data['Password']),
+        IsPatient = True
+        )
+    patient = Patient.objects.create(
+            User = user,    
+        FirstName = data['FirstName'],
+        LastName = data['LastName'],
+        Mobile = data['Mobile'],
+        Gender = data['Gender'],
+        DateOfBirth = data['DateOfBirth'],
+        )
     return Response({'success':'Patient Register Successfully'})
 
 

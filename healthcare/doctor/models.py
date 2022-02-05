@@ -59,3 +59,10 @@ class Review(models.Model):
 
     def __str__(self):
         return self.name
+
+class Category(models.Model):
+    name = models.CharField(max_length=50,blank=True, null=True)
+    about = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
