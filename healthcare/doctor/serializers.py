@@ -1,7 +1,7 @@
 import email
 from django.contrib.postgres import fields
 from rest_framework import serializers
-from .models import Experience, Qualification, DoctorInfo
+from .models import Experience, Qualification, DoctorInfo, Category
 from accounts.models import Doctor
 
 
@@ -31,5 +31,11 @@ class DoctorInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DoctorInfo
+        fields = '__all__'
+
+class CategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Category
         fields = '__all__'
 
