@@ -312,5 +312,14 @@ def AddCategory(request):
 def ViewCategory(request):
     category = Category.objects.all()
     serializer = CategorySerializer(category, many=True)
-    # message = {'success':'Category Added Successfully'}
-    return Response(serializer.data, status=status.HTTP_200_OK)    
+    return Response(serializer.data, status=status.HTTP_200_OK)  
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def SearchCategory(request):
+    data = request.data
+    name = data['Name']
+    category = Category.objects.filter(name__icontains=name)
+    serializer = CategorySerializer(category, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK) 
+    
