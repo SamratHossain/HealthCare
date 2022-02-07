@@ -15,5 +15,6 @@ urlpatterns = [
     path('update-personal-info/', views.UpdatePersonalInfo, name="UpdatePersonalInfo"),
     path('update-doctor-info/', views.UpdateDoctorlInfo, name="UpdateDoctorlInfo"),
     path('add-category/', views.AddCategory, name="AddCategory"),
-    path('search-category/', views.SearchCategory, name="SearchCategory"),
+    path('view-category/', views.ViewCategory, name="SearchCategory"),
+    path('search-category/<str:name>', views.SearchCategory, name="SearchCategory"),
 ]

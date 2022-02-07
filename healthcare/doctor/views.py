@@ -1,5 +1,7 @@
 import datetime
 from datetime import date
+from email import message
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -7,7 +9,7 @@ from rest_framework.response import Response
 from .models import Experience, Qualification, DoctorInfo, Category
 from accounts.models import Doctor
 from .serializers import ExperienceSerializer, QualificationSerializer, DoctorInfoSerializer, DoctorSerializer, CategorySerializer
-# Create your views here.
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -310,16 +312,20 @@ def AddCategory(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def ViewCategory(request):
+    data = request.data
+    print(data)
     category = Category.objects.all()
     serializer = CategorySerializer(category, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)  
+    
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def SearchCategory(request):
-    data = request.data
-    name = data['Name']
-    category = Category.objects.filter(name__icontains=name)
-    serializer = CategorySerializer(category, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK) 
+def SearchCategory(request, name):
+        print(name)
+        category = Category.objects.filter(name__icontains=name)
+        serializer = CategorySerializer(category, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+    
     
