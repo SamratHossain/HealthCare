@@ -115,9 +115,9 @@ WSGI_APPLICATION = 'healthcare.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'HealthCare',
+        'NAME': 'ehealthcare',
         'USER' : 'postgres',
-        'PASSWORD' : 'localpass',
+        'PASSWORD' : '123456',
         'HOST' : 'localhost'
     }
 }
