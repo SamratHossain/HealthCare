@@ -326,6 +326,8 @@ def SearchCategory(request, name):
         category = Category.objects.filter(name__icontains=name)
         serializer = CategorySerializer(category, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
         
     
     

@@ -22,7 +22,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
 
 class Doctor(models.Model):
-    User = models.OneToOneField(UserAccount ,on_delete=models.CASCADE)
+    User = models.ForeignKey(UserAccount ,on_delete=models.CASCADE, related_name="doctor")
     Title = models.CharField(blank=True, null=True ,max_length=50)
     FirstName = models.CharField(blank=True, null=True, max_length=50)
     LastName = models.CharField(blank=True, null=True, max_length=50)
