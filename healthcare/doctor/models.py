@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import ArrayField
+from accounts.models import Doctor
 
 User = get_user_model()
 
@@ -11,7 +12,7 @@ class Specialist(models.Model):
         return self.name
 
 class Qualification(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE, related_name='qualificationInfo')
     Specialist = models.CharField(max_length=50, blank=True, null=True)
     DegreeName = models.CharField(blank=True,null=True,max_length=50)
     InstituteName = models.CharField(blank=True,null=True, max_length=50)
@@ -23,7 +24,8 @@ class Qualification(models.Model):
 
 
 class Experience(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE, related_name='experienceInfo')
+    # qualification = models.ForeignKey(Qualification,on_delete=models.CASCADE, related_name='expInfo')
     HospitalName = models.CharField(blank=True, null=True, max_length=50)
     Designation = models.CharField(blank=True, null=True, max_length=50)
     Department = models.CharField(blank=True, null=True, max_length=50)
@@ -36,7 +38,7 @@ class Experience(models.Model):
         return self.Designation
 
 class DoctorInfo(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE, related_name='doctorInfo')
     AvailableTime = models.CharField(max_length=100, blank=True, null=True)
     AvailableDay = models.CharField(max_length=100, blank=True, null=True)
     ConsultationFee = models.IntegerField()
@@ -51,14 +53,13 @@ class DoctorInfo(models.Model):
         return self.AvailableDay
 
 class Review(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
-    Name = models.CharField(null=True, blank=True, max_length=500)
+    user = models.ForeignKey(User,on_delete=models.CASCADE, related_name='reviewInfo')
+    Name = models.CharField(max_length=500, null=True, blank=True)
     Rating = models.IntegerField()
-    NumberOfReview = models.IntegerField(blank=True, null=True)
     Date = models.DateField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return self.Name
 
 class Category(models.Model):
     name = models.CharField(max_length=50,blank=True, null=True)
