@@ -15,18 +15,22 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = '__all__'
 
+class ExprienceSerializerForDoctorList(serializers.ModelSerializer):
+
+    class Meta:
+        model = Experience
+        fields = ['HospitalName', 'CurrentlyWorking']
+
 class QualificationSerializerForDoctorList(serializers.ModelSerializer):
+
+    # expInfo = ExperienceSerializerForDoctorList(read_only=True, many=True)
 
     class Meta:
         model = Qualification
         fields = ['Specialist', 'DegreeName']
 
 
-class ExprienceSerializerForDoctorList(serializers.ModelSerializer):
 
-    class Meta:
-        model = Experience
-        fields = ['HospitalName', 'CurrentlyWorking']
 
 class DoctorInfoSerializerForDoctorList(serializers.ModelSerializer):
 

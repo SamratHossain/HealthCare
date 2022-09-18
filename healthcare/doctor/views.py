@@ -191,7 +191,6 @@ def ViewExperience(request):
     experienceSerializer = ExperienceSerializer(experience, many=True)
     return Response(experienceSerializer.data)
 
-
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def UpdateExperience(request):
@@ -250,6 +249,8 @@ def UpdateExperience(request):
     experience.save()
     message = {'success':'Experience Successfully Updated'}
     return Response(message, status=status.HTTP_200_OK)
+
+
 
 
 @api_view(['POST'])
@@ -313,7 +314,6 @@ def AddCategory(request):
 @permission_classes([IsAuthenticated])
 def ViewCategory(request):
     data = request.data
-    print(data)
     category = Category.objects.all()
     serializer = CategorySerializer(category, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)  

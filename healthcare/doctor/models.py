@@ -25,6 +25,7 @@ class Qualification(models.Model):
 
 class Experience(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE, related_name='experienceInfo')
+    # qualification = models.ForeignKey(Qualification,on_delete=models.CASCADE, related_name='expInfo')
     HospitalName = models.CharField(blank=True, null=True, max_length=50)
     Designation = models.CharField(blank=True, null=True, max_length=50)
     Department = models.CharField(blank=True, null=True, max_length=50)

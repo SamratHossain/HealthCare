@@ -10,9 +10,10 @@ from doctor.models import Review
 from .serializers import CategorySerializer, UserSerializerForDoctorList
 from rest_framework import viewsets
 from django.contrib.auth import get_user_model
+from doctor.models import Experience
+from doctor.serializers import ExperienceSerializer
 
 User = get_user_model()
-
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -38,6 +39,20 @@ def DoctorListInformation(request):
         serializer = UserSerializerForDoctorList(doctorlist, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+def DoctorListInformationTest(request):
+        doctorlist = Qualification.objects.filter(Specialist='Neurology')
+        serializer = ExperienceSerializerForDoctorList(doctorlist, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def ViewExperience(request):
+      id = 8
+      experience = Experience.objects.filter(user=id)
+      experienceSerializer = ExperienceSerializer(experience, many=True)
+      return Response(experienceSerializer.data)
 
 @api_view(['GET'])
 def getReview(request):
