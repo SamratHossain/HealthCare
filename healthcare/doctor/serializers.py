@@ -28,8 +28,6 @@ class ExperienceSerializer(serializers.ModelSerializer):
         model = Experience
         fields = '__all__'
 
-
-
 class DoctorInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
