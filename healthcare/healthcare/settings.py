@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'accounts',
     'doctor',
     'patient',
+    'chat',
 ]
 
 REST_FRAMEWORK = {

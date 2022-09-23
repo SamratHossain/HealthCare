@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import ArrayField
 from accounts.models import Doctor
 
+
 User = get_user_model()
 
 class Specialist(models.Model):
