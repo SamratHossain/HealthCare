@@ -4,6 +4,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import get_user_model
 from chat.models import ChatMessages
+from .serializers import MessageSerializer
+from django.db.models import Q
 
 User = get_user_model()
 
@@ -14,9 +16,6 @@ User = get_user_model()
 def SendMessage(request):
     data = request.data
     print(data)
-    print(data["user_from"])
-    print(data["user_to"])
-    print(data["message"])
     u_from = User.objects.get(id=data['user_from'])
     print(u_from)
     u_to = User.objects.get(id=data['user_to'])
@@ -26,3 +25,15 @@ def SendMessage(request):
     user_to=u_to,
     message=data["message"])
     return Response({'message':'success'})
+
+
+@api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+def GetMessage(request):
+    data = request.data
+    user_id = data["user_from"]
+    other_id = data["user_to"]
+    # messages = ChatMessages.objects.all()
+    messages = ChatMessages.objects.filter(Q(user_from=user_id, user_to=other_id) | Q(user_from=other_id, user_to=user_id))
+    messaageSerializer = MessageSerializer(messages, many=True)
+    return Response(messaageSerializer.data)
