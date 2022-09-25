@@ -51,7 +51,7 @@ def DoctorListInformationTest(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def ViewExperience(request,id):
-      experience = Experience.objects.filter(user=id)
+      experience = Experience.objects.filter(user=id).order_by("-id")
       experienceSerializer = ExperienceSerializer(experience, many=True)
       return Response(experienceSerializer.data)
 

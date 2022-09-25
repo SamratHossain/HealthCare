@@ -1,11 +1,17 @@
 from django.shortcuts import render
 from rest_framework.response import Response
+from django.http import HttpResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import get_user_model
 from chat.models import ChatMessages
 from .serializers import MessageSerializer
 from django.db.models import Q
+from accounts.models import Patient
+from .serializers import PatientInfoSerializer
+import json
+
+from twilio.rest import Client
 
 User = get_user_model()
 
@@ -16,24 +22,14 @@ User = get_user_model()
 def SendMessage(request):
     data = request.data
     print(data)
-    u_from = User.objects.get(id=data['user_from'])
-    print(u_from)
-    u_to = User.objects.get(id=data['user_to'])
-    print(u_to)
-    messages = ChatMessages.objects.create(
-    user_from=u_from,
-    user_to=u_to,
-    message=data["message"])
+    message = data['message']
+    mobile = data['mobile']
+    sid='AC3948eeff2a9599e2c69f8cdeae9d5034'
+    authToken='39f38f9c214e048f6f3231a1ffe19339'
+    client = Client(sid, authToken)
+    message = client.messages.create(to=f'whatsapp:+880{mobile}',
+                                 from_='whatsapp:+14155238886',
+                                 body=message)
+
     return Response({'message':'success'})
 
-
-@api_view(['GET'])
-# @permission_classes([IsAuthenticated])
-def GetMessage(request):
-    data = request.data
-    user_id = data["user_from"]
-    other_id = data["user_to"]
-    # messages = ChatMessages.objects.all()
-    messages = ChatMessages.objects.filter(Q(user_from=user_id, user_to=other_id) | Q(user_from=other_id, user_to=user_id))
-    messaageSerializer = MessageSerializer(messages, many=True)
-    return Response(messaageSerializer.data)
